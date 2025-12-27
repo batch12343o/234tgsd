@@ -11,7 +11,7 @@ local playerGui = player:WaitForChild("PlayerGui")
 
 -- Config - Working IDs (late 2025)
 local SCARE_SOUND_ID = "rbxassetid://8819324666"  -- Loud jumpscare scream (female, very loud)
-local SCARE_IMAGE_ID = "rbxassetid://4749623124"  -- Scary Face 2.0 - creepy distorted horror face (dog/monster vibe)
+local SCARE_IMAGE_ID = "rbxassetid://7255938910"  -- Scary Face 2.0 - creepy distorted horror face (dog/monster vibe)
 local JUMP_DURATION = 0.35   -- Fast aggressive jump
 local SCARE_HOLD = 2.8       -- Let the fear build
 local KICK_MSG = "GOD IS COMING ! GOD IS COMING ! GOD IS COMING ! GOD IS COMING ! GOD IS COMING ! GOD IS COMING ! GOD IS COMING ! GOD IS COMING ! GOD IS COMING ! GOD IS COMING ! GOD IS COMING ! GOD IS COMING ! GOD IS COMING ! GOD IS COMING !"
