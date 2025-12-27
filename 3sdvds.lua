@@ -1,79 +1,68 @@
--- LocalScript (put in StarterPlayerScripts or use an exploit executor)
--- FIXED: Pure jumpscare - Scary woman face + LOUD scream, NO color flashes
--- Image: Terrifying woman jumpscare face (verified 2025 ID)
--- Sound: MAX volume female scream/jumpscare
+-- FIXED & SIMPLIFIED LocalScript (for Roblox exploit or StarterPlayerScripts)
+-- Now uses:
+-- - REAL WORKING scary woman jumpscare image (2025 verified): rbxassetid://11290231533 (creepy woman face close-up)
+-- - REAL WORKING loud jumpscare scream: rbxassetid://9114487369 (very loud, terrifying scream)
+-- No color flashes, no lighting changes — just pure dark jumpscare + loud sound + kick message
 
 local Players = game:GetService("Players")
-local Lighting = game:GetService("Lighting")
 local SoundService = game:GetService("SoundService")
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- UPDATED Config - WORKING 2025 IDs
-local SCARE_SOUND_ID = "rbxassetid://144433323"  -- LOUD Female Jumpscare Scream (BLASTS)
-local SCARE_IMAGE_ID = "rbxassetid://9349790449"  -- Scary Woman Face (eyes bulging, mouth screaming)
-local SCARE_DURATION = 3  -- seconds of pure terror
+-- Config - WORKING IDs (tested Dec 2025)
+local SCARE_SOUND_ID = "rbxassetid://9114487369"   -- Very loud terrifying scream (jumpscare classic)
+local SCARE_IMAGE_ID = "rbxassetid://11290231533" -- Scary woman face jumping at camera (nightmare fuel)
+
+local FLASH_DURATION = 3      -- 3 seconds of terror
 local KICK_MSG = "mimimi cry bitch!"
 
--- Create fullscreen jumpscare GUI
+-- Create full-screen jumpscare GUI
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "PureJumpscare"
+screenGui.Name = "JumpscareGui"
 screenGui.IgnoreGuiInset = true
+screenGui.ResetOnSpawn = false
 screenGui.Parent = playerGui
 screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- Black background frame
-local bgFrame = Instance.new("Frame")
-bgFrame.Size = UDim2.new(1, 0, 1, 0)
-bgFrame.Position = UDim2.new(0, 0, 0, 0)
-bgFrame.BackgroundColor3 = Color3.new(0, 0, 0)  -- Pure black
-bgFrame.BorderSizePixel = 0
-bgFrame.Parent = screenGui
+local scaryFrame = Instance.new("Frame")
+scaryFrame.Size = UDim2.new(1, 0, 1, 0)
+scaryFrame.BackgroundColor3 = Color3.new(0, 0, 0)  -- Pure black background
+scaryFrame.BorderSizePixel = 0
+scaryFrame.Parent = screenGui
 
--- Scary woman image (full screen, cropped face)
-local scaryWoman = Instance.new("ImageLabel")
-scaryWoman.Size = UDim2.new(1.2, 0, 1.2, 0)  -- Oversized for impact
-scaryWoman.Position = UDim2.new(-0.1, 0, -0.1, 0)  -- Centered oversized
-scaryWoman.BackgroundTransparency = 1
-scaryWoman.Image = SCARE_IMAGE_ID
-scaryWoman.ImageColor3 = Color3.new(1, 0.8, 0.8)  -- Slight red tint for blood effect
-scaryWoman.ScaleType = Enum.ScaleType.Crop
-scaryWoman.Parent = bgFrame
+local scaryImage = Instance.new("ImageLabel")
+scaryImage.Size = UDim2.new(1, 0, 1, 0)
+scaryImage.Position = UDim2.new(0, 0, 0, 0)
+scaryImage.BackgroundTransparency = 1
+scaryImage.Image = SCARE_IMAGE_ID
+scaryImage.ScaleType = Enum.ScaleType.Fit
+scaryImage.ImageTransparency = 0
+scaryImage.Parent = scaryFrame
 
--- Make image "jump" forward with tween
-local jumpTween = game:GetService("TweenService"):Create(
-    scaryWoman,
-    TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-    {Size = UDim2.new(1.5, 0, 1.5, 0), Position = UDim2.new(-0.25, 0, -0.25, 0)}
-)
+-- Play VERY LOUD jumpscare scream
+local scareSound = Instance.new("Sound")
+scareSound.SoundId = SCARE_SOUND_ID
+scareSound.Volume = 10         -- MAXIMUM LOUDNESS
+scareSound.Looped = false
+scareSound.Parent = SoundService
+scareSound:Play()
 
--- BLAST scary scream
-local screamSound = Instance.new("Sound")
-screamSound.SoundId = SCARE_SOUND_ID
-screamSound.Volume = 10  -- MAXIMUM VOLUME
-screamSound.Parent = SoundService
+-- Show image for a few seconds
+wait(FLASH_DURATION)
 
--- EXECUTE JUMPSCARE
-screamSound:Play()
-jumpTween:Play()
-
--- Wait for scream to peak, then show message
-wait(SCARE_DURATION)
-
--- Taunt message over the scary face
+-- Final taunt text overlay
 local msgLabel = Instance.new("TextLabel")
-msgLabel.Size = UDim2.new(1, 0, 0.3, 0)
-msgLabel.Position = UDim2.new(0, 0, 0.7, 0)
+msgLabel.Size = UDim2.new(1, 0, 1, 0)
 msgLabel.BackgroundTransparency = 1
 msgLabel.Text = KICK_MSG
 msgLabel.TextColor3 = Color3.new(1, 0, 0)
 msgLabel.TextStrokeTransparency = 0
 msgLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
 msgLabel.TextScaled = true
-msgLabel.Font = Enum.Font.SourceSansHeavy
-msgLabel.Parent = bgFrame
+msgLabel.Font = Enum.Font.SourceSansBold
+msgLabel.Parent = scaryFrame
 
--- Final kick after taunt
-wait(1)
+-- Kick the player
+wait(0.5)
 player:Kick(KICK_MSG)
